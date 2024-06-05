@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% block head %}
+    
 
 <head>
     <meta charset="utf-8" />
@@ -12,8 +12,12 @@
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
+
+   
+    {{ bootstrap.load_css() }}
+    {% from 'bootstrap5/form.html' import render_form %}
 </head>
-    {% endblock %}
+    
 <body>
     <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -50,9 +54,21 @@
                 
                 <!-- Nested row for non-featured blog posts-->
                 <div class="row">
+                  <form action="/" method="post">
+                  
                     
-                  <!-- form -->
-                   
+                    <!-- Add CKEditor and render the WTF form-->
+                    {{ form.csrf_token }}
+                    {{ render_form(form) }}
+
+                    <div class="container">
+                      {{ ckeditor.load() }}
+                      {{ ckeditor.config(name='body') }}
+                      <button style="background-color: #76ABAE; width: 100px;"  class="btn btn-primary" id="button-search" type="submit">Go!</button>
+                    </div>
+
+                  </form> 
+
                 </div>
 
             </div>
@@ -64,20 +80,21 @@
                     <div class="card-body">
                         <div class="input-group">
                             <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
-                            <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                            <button style="background-color: #76ABAE;"  class="btn btn-primary" id="button-search" type="button">Go!</button>
+                            
                         </div>
                     </div>
                 </div>
                 
                 <!-- Side widget-->
-                <div class="card mb-4">
+                <div class="card mb-4 py-5">
                     <div class="card-header">Last news</div>
                     <div class="card-body">Quisque egestas sapien vel est lacinia faucibus. Donec tempor, mi vitae maximus finibus, velit magna congue quam, ac hendrerit li</div>
                 </div>
             </div>
         </div>
         <!-- Footer-->
-        <footer class="py-5 bg-dark">
+        <footer class="py-4 bg-dark my-5">
             <div class="container">
                 <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
             </div>
@@ -88,7 +105,7 @@
         <!-- Core theme JS-->
         <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 
-
+        {{ bootstrap.load_js() }}
 </body>
 
 </html>

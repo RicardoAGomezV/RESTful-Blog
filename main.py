@@ -6,8 +6,17 @@ from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import Integer, String, Text
 from wtforms import Form,  StringField, SubmitField, validators
 from flask_wtf import FlaskForm
+from flask_bootstrap import Bootstrap5
+from flask_ckeditor import CKEditor
+from flask_ckeditor import CKEditorField
 
 app = Flask(__name__)
+
+# Initialise the CKEditor so that we can use it in make_post.html
+ckeditor = CKEditor(app)
+
+app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+Bootstrap5(app)
 
 
 # CREATE DB
@@ -89,8 +98,8 @@ with app.app_context():
 @app.route("/")
 def get_all_posts():
     # Get the most recent post
-    most_recent_post = db.session.execute(db.select(BlogPost).order_by(BlogPost.date.desc())).scalars().first()
     # orders them by date in descending order, and takes the first result (the most recent).
+    most_recent_post = db.session.execute(db.select(BlogPost).order_by(BlogPost.date.desc())).scalars().first()
     
     # Get all posts except the most recent one
     all_posts_except_most_recent = db.session.execute(db.select(BlogPost).where(BlogPost.id != most_recent_post.id).order_by(BlogPost.date.desc())).scalars().all()
@@ -109,25 +118,39 @@ def show_post(post_id):
 
 
 
-# Form class for 
+# Form class for creating a new blog post
 class CreatePostForm(FlaskForm):
     
+    # Field for the blog post title
     blog_post_title = StringField('Blog Post Title', [validators.Length(min=5, max=35), validators.DataRequired(message="Review is required.")])
     
+    # Field for the subtitle of the blog post
     subtitle = StringField('subitle', [validators.Length(min=5, max=35), validators.DataRequired(message="Subtitle is required.")])
     
+    # Field for the author's name
     author_name = StringField('Blog Image', [validators.Length(min=5, max=35), validators.DataRequired(message="Author name is required.")])
     
+    # Field for the URL of the blog post's image
     img_url = StringField('Blog Image Url', [validators.Length(min=5, max=35), validators.DataRequired(message="A URL for the background image is required."), validators.URL()])
-       
-    # Submit button
-    submit = SubmitField('Submit')
     
+    # Field for the body content of the blog post, using CKEditor
+    body = CKEditorField("Blog Content", [validators.DataRequired()])   
+    # Submit button - Removed for now to prevent accidental form submission
+    # submit = SubmitField('Submit')
+
     
     
 @app.route("/new_post")
 def new_post():
-   
+    form = CreatePostForm()
+    
+    if form.validate_on_submit():
+        pass
+    
+    else:
+        return render_template('make-post.html', form=form)
+    
+    
     return render_template('make-post.html')
 
 
