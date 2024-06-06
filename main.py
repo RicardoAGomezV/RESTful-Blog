@@ -25,7 +25,7 @@ class Base(DeclarativeBase):
     pass
 
 # Connect to Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafes.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///post.db'
 
 # configure the SQLite database, relative to the app instance folder
 db = SQLAlchemy(model_class=Base)
@@ -132,7 +132,7 @@ class CreatePostForm(FlaskForm):
     author_name = StringField('Author name', [validators.Length(min=5, max=35), validators.DataRequired(message="Author name is required.")])
     
     # Field for the URL of the blog post's image
-    img_url = StringField('Blog Image Url', [validators.Length(min=5, max=35), validators.DataRequired(message="A URL for the background image is required."), validators.URL()])
+    img_url = StringField('Blog Image Url', [validators.Length(min=5), validators.DataRequired(message="A URL for the background image is required."), validators.URL()])
     
     # Field for the body content of the blog post, using CKEditor
     body = CKEditorField("Blog Content", [validators.DataRequired()])   
