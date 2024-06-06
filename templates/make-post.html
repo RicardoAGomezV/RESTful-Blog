@@ -54,16 +54,16 @@
                 
                 <!-- Nested row for non-featured blog posts-->
                 <div class="row">
-                  <form action="/" method="post">
+                  <form action="{{ url_for('new_post') }}" method="post">
                   
                     
-                    <!-- Add CKEditor and render the WTF form-->
-                    {{ form.csrf_token }}
-                    {{ render_form(form) }}
-
                     <div class="container">
-                      {{ ckeditor.load() }}
+                    <!-- Add CKEditor and render the WTF form-->
+                       {{ ckeditor.load() }}
                       {{ ckeditor.config(name='body') }}
+                      {{ form.csrf_token }}
+                    {{ render_form(form) }}
+                      
                       <button style="background-color: #76ABAE; width: 100px;"  class="btn btn-primary" id="button-search" type="submit">Go!</button>
                     </div>
 
@@ -80,7 +80,7 @@
                     <div class="card-body">
                         <div class="input-group">
                             <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
-                            <button style="background-color: #76ABAE;"  class="btn btn-primary" id="button-search" type="button">Go!</button>
+                            <button style="background-color: #76ABAE;"  class="btn btn-primary"  type="button">Go!</button>
                             
                         </div>
                     </div>

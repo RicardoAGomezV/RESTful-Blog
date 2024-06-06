@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template, url_for
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
@@ -128,7 +128,7 @@ class CreatePostForm(FlaskForm):
     subtitle = StringField('subitle', [validators.Length(min=5, max=35), validators.DataRequired(message="Subtitle is required.")])
     
     # Field for the author's name
-    author_name = StringField('Blog Image', [validators.Length(min=5, max=35), validators.DataRequired(message="Author name is required.")])
+    author_name = StringField('Author name', [validators.Length(min=5, max=35), validators.DataRequired(message="Author name is required.")])
     
     # Field for the URL of the blog post's image
     img_url = StringField('Blog Image Url', [validators.Length(min=5, max=35), validators.DataRequired(message="A URL for the background image is required."), validators.URL()])
@@ -140,18 +140,33 @@ class CreatePostForm(FlaskForm):
 
     
     
-@app.route("/new_post")
+@app.route("/new_post", methods=['GET', 'POST'])
 def new_post():
     form = CreatePostForm()
     
     if form.validate_on_submit():
-        pass
+        
+        title=form.blog_post_title.data
+        
+        subtitle=form.subtitle.data
+        
+        author=form.author_name.data
+        
+        img_url=form.img_url.data
+        
+        body=form.body.data
+        
+        print(title)
+        
+        print(body)
+        
+        return redirect(url_for('get_all_posts'))
     
     else:
         return render_template('make-post.html', form=form)
     
     
-    return render_template('make-post.html')
+    
 
 
 if __name__ == '__main__':
