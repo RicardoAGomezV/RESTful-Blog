@@ -1,5 +1,5 @@
 import datetime
-from flask import Flask, redirect, render_template, url_for
+from flask import Flask, redirect, render_template, request, url_for
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
@@ -112,10 +112,16 @@ def get_all_posts():
 
 
 
+# Define a route for displaying a single post, using the post_id parameter to identify the post
 @app.route("/post/<post_id>")
 def show_post(post_id):
+    
+    # Retrieve the post from the database using the post_id; if not found, return a 404 error
     post_info = db.get_or_404(BlogPost, post_id)
+    
+    
     return render_template('post.html', post=post_info)
+
 
 
 
@@ -140,31 +146,98 @@ class CreatePostForm(FlaskForm):
     # submit = SubmitField('Submit')
 
 
-    
+# Define a route for creating a new post, allowing both GET and POST requests
 @app.route("/new_post", methods=['GET', 'POST'])
 def new_post():
+    # Create an instance of the form for creating a new post
     form = CreatePostForm()
     
+    # Check if the form has been submitted and is valid
     if form.validate_on_submit():
         
-        new_post=BlogPost(
-            title=form.blog_post_title.data,
-            subtitle=form.subtitle.data,
-            date=datetime.datetime.now().strftime("%B %d, %Y"),
-            author=form.author_name.data,
-            img_url=form.img_url.data,
-            body=form.body.data
-            
+        # Create a new BlogPost object with data from the form
+        new_post = BlogPost(
+            title=form.blog_post_title.data,         
+            subtitle=form.subtitle.data,             
+            date=datetime.datetime.now().strftime("%B %d, %Y"),  
+            author=form.author_name.data,           
+            img_url=form.img_url.data,              
+            body=form.body.data                     
         )
         
+        # Add the new post to the database session
         db.session.add(new_post)
+        
+        # Commit the session to save the new post to the database
         db.session.commit()
-      
+        
+       
         return redirect(url_for('get_all_posts'))
     
     else:
         
         return render_template('make-post.html', form=form)
+
+
+# Define a route for editing a post by its ID, allowing both GET and POST requests
+@app.route("/edit/<post_id>", methods=['GET', 'POST'])
+def edit_post(post_id):
+    
+    # Get the post from the database by its ID; if not found, return a 404 error
+    post = db.get_or_404(BlogPost, post_id)
+    
+    # Create a form pre-populated with the post's existing data
+    edit_form = CreatePostForm(
+        blog_post_title=post.title,  
+        subtitle=post.subtitle,      
+        img_url=post.img_url,        
+        author_name=post.author,     
+        body=post.body               
+    )
+    
+    # Check if the form has been submitted and is valid
+    if edit_form.validate_on_submit():
+        
+        # Update the post's fields with the data from the form
+        post.id = post_id                             
+        post.title = edit_form.blog_post_title.data  
+        post.subtitle = edit_form.subtitle.data       
+        post.author = edit_form.author_name.data      
+        post.img_url = edit_form.img_url.data         
+        post.body = edit_form.body.data               
+        
+        # Commit the changes to the database
+        db.session.commit()
+        
+        
+        return redirect(url_for('get_all_posts'))
+    
+    else:
+        
+        return render_template('make-post.html', form=edit_form, edit=True, post=post)
+
+
+
+
+# Route for deleting a post by its ID
+@app.route("/delete/<post_id>")
+def delete_post(post_id):
+    
+    # Print the post ID to the console (for debugging purposes)
+    print(post_id)
+    
+    # Get the post from the database by its ID; if not found, return a 404 error
+    post = db.get_or_404(BlogPost, post_id)
+    
+    # Delete the post from the database session
+    db.session.delete(post)
+    
+    
+    db.session.commit()
+    
+    
+    return redirect(url_for('get_all_posts'))
+
 
 
 

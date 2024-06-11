@@ -36,30 +36,44 @@
             </div>
         </div>
     </nav>
+    <!-- From the Edit Post view, we send the edit variable with  TRUE Value -->
+    {% if edit==True %}
     <!-- Page header with logo and tagline-->
     <header class="py-5 bg-light border-bottom mb-4">
         <div class="container">
             <div class="text-center my-5">
-                <h1 class="fw-bolder">Add New Post!</h1>
+                <h1 class="fw-bolder">Edit Post!</h1>
                 <p class="lead mb-0">rem ipsum dolor sit amet, consectetur adipiscing elit. Quisqu</p>
             </div>
         </div>
     </header>
+    {% else %}
+    <header class="py-5 bg-light border-bottom mb-4">
+        <div class="container">
+            <div class="text-center my-5">
+                <h1 class="fw-bolder">Add new Post!</h1>
+                <p class="lead mb-0">rem ipsum dolor sit amet, consectetur adipiscing elit. Quisqu</p>
+            </div>
+        </div>
+    </header>
+    {% endif %}
     <!-- Page content-->
     <div class="container">
         <div class="row">
             <!-- Blog entries-->
             <div class="col-lg-8">
                 <!-- Featured blog post-->
-                
+                <!-- Edit the information in the database -->
+                {% if edit==True %}
                 <!-- Nested row for non-featured blog posts-->
                 <div class="row">
-                  <form action="{{ url_for('new_post') }}" method="post">
+                  <form action="{{ url_for('edit_post', post_id=post.id)  }}" method="post">
                   
                     
                     <div class="container">
                     <!-- Add CKEditor and render the WTF form-->
                        {{ ckeditor.load() }}
+                       <!-- his code sets up the CKEditor for a textarea field in a Flask web form. -->
                       {{ ckeditor.config(name='body') }}
                       {{ form.csrf_token }}
                     {{ render_form(form) }}
@@ -70,7 +84,28 @@
                   </form> 
 
                 </div>
-
+                
+                {% else %}
+                <!-- add new information to the data base -->
+                <div class="row">
+                    <form action="{{ url_for('new_post') }}" method="post">
+                    
+                      
+                      <div class="container">
+                      <!-- Add CKEditor and render the WTF form-->
+                         {{ ckeditor.load() }}
+                         <!-- his code sets up the CKEditor for a textarea field in a Flask web form. -->
+                        {{ ckeditor.config(name='body') }}
+                        {{ form.csrf_token }}
+                      {{ render_form(form) }}
+                        
+                        <button style="background-color: #76ABAE; width: 100px;"  class="btn btn-primary"  type="submit">Go!</button>
+                      </div>
+  
+                    </form> 
+  
+                  </div>
+                {% endif %}   
             </div>
               <!-- Side widgets-->
               <div class="col-lg-4">

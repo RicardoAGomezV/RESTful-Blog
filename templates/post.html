@@ -54,6 +54,15 @@
                            
                         </section>
                     </article>
+                    <div class="d-flex justify-content-end mb-4">
+                        <!-- Link the edit button to the edit_post route -->
+                          <a
+                          style="background-color: #76ABAE;"
+                            class="btn btn-primary float-right"
+                            href="{{ url_for('edit_post', post_id=post.id) }}"
+                            >Edit Post</a
+                          >
+                    </div>
                     <!-- Comments section-->
                     <section class="mb-5">
                         <div class="card bg-light">
