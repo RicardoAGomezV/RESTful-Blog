@@ -12,6 +12,7 @@ from flask_ckeditor import CKEditor
 from flask_ckeditor import CKEditorField
 
 app = Flask(__name__)
+app.config['DEBUG'] = True 
 
 # Initialise the CKEditor so that we can use it in make_post.html
 ckeditor = CKEditor(app)
@@ -129,19 +130,19 @@ def show_post(post_id):
 class CreatePostForm(FlaskForm):
     
     # Field for the blog post title
-    blog_post_title = StringField('Blog Post Title', [validators.Length(min=5, max=35), validators.DataRequired(message="Review is required.")])
+    blog_post_title = StringField('ブログ投稿のタイトル', [validators.Length(min=5, max=35), validators.DataRequired(message="Review is required.")])
     
     # Field for the subtitle of the blog post
-    subtitle = StringField('subitle', [validators.Length(min=5, max=35), validators.DataRequired(message="Subtitle is required.")])
+    subtitle = StringField('サブタイトル', [validators.Length(min=5, max=35), validators.DataRequired(message="Subtitle is required.")])
     
     # Field for the author's name
-    author_name = StringField('Author name', [validators.Length(min=5, max=35), validators.DataRequired(message="Author name is required.")])
+    author_name = StringField('著者名', [validators.Length(min=5, max=35), validators.DataRequired(message="Author name is required.")])
     
     # Field for the URL of the blog post's image
-    img_url = StringField('Blog Image Url', [validators.Length(min=5), validators.DataRequired(message="A URL for the background image is required."), validators.URL()])
+    img_url = StringField('ブログ画像のURL', [validators.Length(min=5), validators.DataRequired(message="A URL for the background image is required."), validators.URL()])
     
     # Field for the body content of the blog post, using CKEditor
-    body = CKEditorField("Blog Content", [validators.DataRequired()])   
+    body = CKEditorField("ブログの内容", [validators.DataRequired()])   
     # Submit button - Removed for now to prevent accidental form submission
     # submit = SubmitField('Submit')
 
@@ -245,4 +246,4 @@ if __name__ == '__main__':
 
     # run() method of Flask class runs the application 
     # on the local development server.
-    app.run(debug=True, port=5003)
+    app.run()

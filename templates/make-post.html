@@ -19,18 +19,16 @@
 </head>
     
 <body>
-    <!-- Responsive navbar-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+       <!-- Responsive navbar-->
+       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#!">Start Bootstrap</a>
+            <a class="navbar-brand" href="{{url_for('get_all_posts')}}">Welcome 皆様</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
+                    
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
                 </ul>
             </div>
@@ -42,7 +40,7 @@
     <header class="py-5 bg-light border-bottom mb-4">
         <div class="container">
             <div class="text-center my-5">
-                <h1 class="fw-bolder">Edit Post!</h1>
+                <h1 class="fw-bolder">投稿を編集する!</h1>
                 <p class="lead mb-0">rem ipsum dolor sit amet, consectetur adipiscing elit. Quisqu</p>
             </div>
         </div>
@@ -51,7 +49,7 @@
     <header class="py-5 bg-light border-bottom mb-4">
         <div class="container">
             <div class="text-center my-5">
-                <h1 class="fw-bolder">Add new Post!</h1>
+                <h1 class="fw-bolder">新しい投稿を追加!</h1>
                 <p class="lead mb-0">rem ipsum dolor sit amet, consectetur adipiscing elit. Quisqu</p>
             </div>
         </div>
@@ -59,9 +57,9 @@
     {% endif %}
     <!-- Page content-->
     <div class="container">
-        <div class="row">
+        
             <!-- Blog entries-->
-            <div class="col-lg-8">
+            <div class="col-lg-10">
                 <!-- Featured blog post-->
                 <!-- Edit the information in the database -->
                 {% if edit==True %}
@@ -110,7 +108,7 @@
               <!-- Side widgets-->
               <div class="col-lg-4">
                 <!-- Search widget-->
-                <div class="card mb-4">
+                <!-- <div class="card mb-4">
                     <div class="card-header">Search</div>
                     <div class="card-body">
                         <div class="input-group">
@@ -119,14 +117,9 @@
                             
                         </div>
                     </div>
-                </div>
+                </div> -->
                 
-                <!-- Side widget-->
-                <div class="card mb-4 py-5">
-                    <div class="card-header">Last news</div>
-                    <div class="card-body">Quisque egestas sapien vel est lacinia faucibus. Donec tempor, mi vitae maximus finibus, velit magna congue quam, ac hendrerit li</div>
-                </div>
-            </div>
+              
         </div>
         <!-- Footer-->
         <footer class="py-4 bg-dark my-5">
@@ -141,6 +134,7 @@
         <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 
         {{ bootstrap.load_js() }}
+    </div>
 </body>
 
 </html>
