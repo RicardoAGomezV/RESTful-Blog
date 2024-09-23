@@ -16,7 +16,7 @@
         <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#!">Welcome 皆様</a>
+            <a class="navbar-brand" href="{{url_for('get_all_posts')}}">Welcome 皆様</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -45,7 +45,7 @@
                             <!-- <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a> -->
                         </header>
                         <!-- Preview image figure-->
-                        <figure class="mb-4"><img class="img-fluid rounded" src="{{ post.img_url }}" alt="..." /></figure>
+                        <figure class="mb-4"><img style="width: 500px;" class="img-fluid rounded" src="{{ post.img_url }}" alt="..." /></figure>
                         <!-- Post content-->
                         <section class="mb-5">
                             <!-- "|safe" IS USED TO TELL JINJA THAT THE CONTENT OF POST.BODY IS SAFE HTML AND SHOULD BE RENDERED AS SUCH, WITHOUT ESCAPING ANY HTML TAGS. -->
